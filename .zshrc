@@ -1,13 +1,16 @@
 #!/usr/bin/env zsh
 
+# auto-completion init ? (from: https://stackoverflow.com/a/58517668)
+autoload -Uz compinit && compinit
+# Load bash complete compatability ? (from: https://stackoverflow.com/a/3251836)
+autoload -U +X bashcompinit && bashcompinit
+
 # INIT
 # Load bash_profile if one is present
 if [ -r ~/.bash_profile ]; then
   source ~/.bash_profile
 fi
 
-# auto-completion init ? (from: https://stackoverflow.com/a/58517668)
-autoload -Uz compinit && compinit
 
 # ENVIRONMENT VARIABLES
 # Set zsh-friendly PS1

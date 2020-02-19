@@ -60,29 +60,27 @@ fi
 alias home="cd \"${__SHELL_INITIAL_DIRECTORY}\""
 
 
-
 # TAB COMPLETION
-# Load bash_completion (only works in bash)
-if [ -f "$(brew --prefix)"/etc/bash_completion ]; then
-  source "$(brew --prefix)"/etc/bash_completion;
+# Load bash_completion (for bash only)
+BASH_COMPLETION_LOCATION="/usr/local/etc/profile.d/bash_completion.sh";
+if [ -r "${BASH_COMPLETION_LOCATION}" ]; then
+  source "${BASH_COMPLETION_LOCATION}";
 fi
 
-# bash_completion for nvm
+# Completion for nvm (works in zsh too, despite the name)
 if [ -s "${NVM_DIR}/bash_completion" ]; then
   source "${NVM_DIR}/bash_completion";
 fi
 
-# `npm` autocomplete
+# Completion for npm
 if hash npm &> /dev/null; then
   eval "$(npm completion)";
 fi
 
-# `terraform` autocomplete
+# Completion for terraform
 if hash terraform &> /dev/null; then
-  complete -C "$(which terraform)" terraform
+  complete -o nospace -C "$(which terraform)" terraform
 fi
-
-
 
 
 # FUNCTIONS
