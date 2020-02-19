@@ -1,6 +1,8 @@
+#!/usr/bin/env zsh
+
 # INIT
 # Load bash_profile if one is present
-if [ -f ~/.bash_profile ]; then
+if [ -r ~/.bash_profile ]; then
   source ~/.bash_profile
 fi
 
@@ -23,6 +25,7 @@ function git-prompt() {
 
   echo '------------------------------------------';
   while true; do
+    # @NOTE `read` args different for zsh than bash
     read -q yn\?"Do you wish to run \`git push\`? "
     case ${yn} in
         [Yy]* ) git push; break;;
