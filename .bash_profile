@@ -171,6 +171,84 @@ function ls-count() {
   find "${directory}" -type d -maxdepth "${maxdepth}" -mindepth 1 | while read x; do echo "$(find "$x" -type f -mindepth 1 | wc -l)  $x"; done | sort -nr;
 }
 
+# Usage: loop-command [command]
+#   Run non-terminating commands with the ability to force restart them
+#   Press Ctrl+C to restart the running process, press it twice in succession
+#   to stop looping.
+#
+# Example usage:
+#   loop-command 'npm start'
+function loop-command() {
+  # Validate argument exists
+  if [ -z "$1" ]
+  then
+    echo "No command specified."
+    echo "Usage: loop-command (command)"
+    exit 1
+  fi
+  # Get command from first argument
+  child_command="$1"
+
+  # Preamble
+  echo "   --- Command Looper by Peabnuts123 ---  "
+  echo "*** Press Ctrl+C once to restart the command"
+  echo "*** Press Ctrl+C twice in succession to exit"
+  sleep 3
+
+  # Release SIGINT trap, sleep, giving the user
+  #   the opportunity to SIGINT again
+  function restart_or_kill() {
+    trap - INT
+    echo "*** Send another SIGINT to exit"
+    sleep 1
+  }
+
+  # Loop!
+  while true
+  do
+    echo "*** Executing \`${child_command}'..."
+    trap restart_or_kill INT
+    eval $child_command
+  done
+}
+
+# "Smart" Rebase
+# Purpose: Perform a rebase against remote/branch in a safe manner, allowing
+#   for the working tree to be dirty by using `--autostash` and preserving merge commits
+#   by using `-p`. This is slightly more verbose than something like `git pull` and
+#   is therefore more convenient to wrap into a small script.
+#
+# Usage: smart-rebase remote [branch]
+#   remote -  the remote to use when comparing against
+#   branch -  remote branch name to use when comparing against.
+#               If no branch is specified, the current branch is used
+function smart-rebase() {
+  # Get remote arg
+  remote=$1
+  if [ -z "$1" ]
+  then
+    echo "No remote specified."
+    echo "Usage: smart-rebase \$remote \$branch"
+    exit 1
+  fi
+
+  # Get branch arg
+  branch=$2
+  if [ -z "$2" ]
+  then
+    echo "No branch specified. Using current git branch"
+
+    branch=$(git rev-parse --abbrev-ref HEAD)
+  fi
+
+  # Update remote branches locally
+  git fetch $remote
+
+  # Perform rebase specifying `--autostash` and `--preserve-merges`
+  git rebase --autostash --rebase-merges $remote/$branch
+}
+
+
 # Not managed by git. For machine-specific overrides, secrets, etc.
 if [ -s "${HOME}/.bash_profile.override" ]; then
   source "${HOME}/.bash_profile.override";
