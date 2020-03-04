@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # PATH
-export PATH="${PATH}";
+export PATH="${PATH}:$HOME/.pub-cache/bin";
 
 
 # ENVIRONMENT VARIABLES
