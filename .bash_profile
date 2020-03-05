@@ -22,7 +22,7 @@ if [ -s "${NVM_DIR}/nvm.sh" ]; then
 fi
 
 # Automatically call `nvm use` when opening a shell in a directory with `.nvmrc` in it
-if [ -s "$(pwd)/.nvmrc" ] && hash nvm &> /dev/null; then
+if [ -s "$(pwd)/.nvmrc" ]; then
   nvm use;
 fi
 
