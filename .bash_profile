@@ -248,6 +248,26 @@ function smart-rebase() {
   git rebase --autostash --rebase-merges $remote/$branch
 }
 
+function source-export() {
+  # Validate argument exists
+  if [ -z "$1" ]
+  then
+    echo "No file specified."
+    echo "Usage: source-export (file)"
+    exit 1
+  fi
+
+  # Arguments
+  file="${1}";
+
+  # Enable allexport
+  set -a;
+  # Source file (exports every variable. See: https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html)
+  source "${file}";
+  # Disable allexport
+  set +a;
+}
+
 
 # Not managed by git. For machine-specific overrides, secrets, etc.
 if [ -s "${HOME}/.bash_profile.override" ]; then
