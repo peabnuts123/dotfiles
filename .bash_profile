@@ -151,8 +151,7 @@ function git-breakdown() {
 function npm-exec() {
   bin="${1}";
   shift
-  args="$*"
-  "$(npm bin)/${bin}" ${args};
+  "$(npm bin)/${bin}" "${@}";
 }
 
 # Usage: ls-count (directory=.) (depth=1)
