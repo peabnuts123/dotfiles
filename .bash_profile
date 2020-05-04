@@ -3,6 +3,11 @@
 # PATH
 export PATH="${PATH}:$HOME/.pub-cache/bin";
 
+# Ruby installed from brew
+if [ -d '/usr/local/opt/ruby/bin' ]; then
+  export PATH="/usr/local/opt/ruby/bin:${PATH}";
+fi
+
 
 # ENVIRONMENT VARIABLES
 # Objectively the best PS1 (bash only)
