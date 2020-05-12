@@ -62,6 +62,10 @@ if [ -d '/Applications/PICO-8.app' ]; then
   # Specifically, the pico8 executable (for command-line parameters)
   alias pico8=/Applications/PICO-8.app/Contents/MacOS/pico8
 fi
+# Docker-compose
+if hash 'docker-compose' &> /dev/null; then
+  alias dc='docker-compose';
+fi
 # Return to where the terminal opened
 alias home="cd \"${__SHELL_INITIAL_DIRECTORY}\""
 
