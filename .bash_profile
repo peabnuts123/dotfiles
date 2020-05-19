@@ -193,7 +193,7 @@ function loop-command() {
   then
     echo "No command specified."
     echo "Usage: loop-command (command)"
-    exit 1
+    return 1
   fi
   # Get command from first argument
   child_command="$1"
@@ -238,7 +238,7 @@ function smart-rebase() {
   then
     echo "No remote specified."
     echo "Usage: smart-rebase \$remote \$branch"
-    exit 1
+    return 1
   fi
 
   # Get branch arg
@@ -257,26 +257,36 @@ function smart-rebase() {
   git rebase --autostash --rebase-merges $remote/$branch
 }
 
-function source-export() {
-  # Validate argument exists
-  if [ -z "$1" ]
-  then
+# Export variables from a properties file where
+#   variable declarations aren't prefixed with `export`
+# This is useful for reading .env files and other 'properties'
+#   format files in the format of `VARIABLE=Some value`
+#   that are usually automatically fed into the environment
+#   by a tool like Docker, when running in your local dev environment
+function export-properties() {
+  # Validation
+  if [ -z "$1" ]; then
     echo "No file specified."
-    echo "Usage: source-export (file)"
-    exit 1
+    echo "Usage: read-properties file_name"
+    return 1;
+  fi
+  if [ ! -r "$1" ]; then
+    echo "Destination file $1 is not readable"
+    return 1;
   fi
 
-  # Arguments
-  file="${1}";
+  # Read file line by line
+  while read -r line; do
+    # Match regex 'something=value'
+    if [[ "${line}" =~ ^\s*([^=]+)=([^=]*)\s*$ ]]; then
+      key="${BASH_REMATCH[1]}";
+      value="${BASH_REMATCH[2]}";
 
-  # Enable allexport
-  set -a;
-  # Source file (exports every variable. See: https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html)
-  source "${file}";
-  # Disable allexport
-  set +a;
+      # Export dynamic variable
+      export "$key"="$value";
+    fi
+  done < "$1"
 }
-
 
 # Not managed by git. For machine-specific overrides, secrets, etc.
 if [ -s "${HOME}/.bash_profile.override" ]; then
