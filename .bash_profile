@@ -177,7 +177,7 @@ function npm-exec() {
 function ls-count() {
   local directory="${1:-.}";
   local maxdepth="${2:-1}";
-  find "${directory}" -type d -maxdepth "${maxdepth}" -mindepth 1 | while read x; do echo "$(find "$x" -type f -mindepth 1 | wc -l)  $x"; done | sort -nr;
+  find "${directory}" -maxdepth "${maxdepth}" -mindepth 1 -type d | while read x; do echo "$(find "$x" -type f -mindepth 1 | wc -l)  $x"; done | sort -nr;
 }
 
 # Usage: loop-command [command]
