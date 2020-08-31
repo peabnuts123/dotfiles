@@ -69,3 +69,7 @@ function export-properties() {
   done < "$1"
 }
 
+# bind keys
+# Ctrl + Arrow_Key
+bindkey "^[[1;5D" backward-word
+bindkey "^[[1;5C" forward-word
