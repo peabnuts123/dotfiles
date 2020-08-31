@@ -278,7 +278,7 @@ function export-properties() {
   # Read file line by line
   while read -r line; do
     # Match regex 'something=value'
-    if [[ "${line}" =~ ^\s*([^=]+)=([^=]*)\s*$ ]]; then
+    if [[ ! "${line}" =~ ^\s*\# && "${line}" =~ ^\s*([^=]+)=(.*)\s*$ ]]; then
       key="${BASH_REMATCH[1]}";
       value="${BASH_REMATCH[2]}";
 
