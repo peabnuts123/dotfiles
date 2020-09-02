@@ -29,11 +29,11 @@ function git-prompt() {
   echo '------------------------------------------';
   while true; do
     # @NOTE `read` args different for zsh than bash
-    read -q yn\?"Do you wish to run \`git push\`? "
+    read -k 1 yn\?"Do you wish to run \`git push\`? "
     case ${yn} in
         [Yy]* ) git push; break;;
         [NnQq]* ) break;;
-        * ) echo "Please answer Y or N.";;
+        * ) echo "\nPlease answer Y or N.";;
     esac
   done
 }

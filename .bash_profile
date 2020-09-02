@@ -134,9 +134,9 @@ function git-prompt() {
   while true; do
     read -rp "Do you wish to run \`git push\`? " yn
     case ${yn} in
-        [Yy]* ) git push; break;;
-        [NnQq]* ) break;;
-        * ) echo "Please answer Y or N.";;
+        ([Yy]*) git push; break;;
+        ([NnQq]*) break;;
+        (*) echo "Please answer Y or N.";;
     esac
   done
 }
