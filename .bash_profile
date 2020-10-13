@@ -15,6 +15,8 @@ fi
 PS1="\[\e[30;43m\][\[\e[m\]\[\e[30;43m\]\T\[\e[m\]\[\e[30;43m\]]\[\e[m\]\[\e[30;42m\] \[\e[m\]\[\e[30;42m\]\u\[\e[m\]\[\e[30;42m\] \[\e[m\]\[\e[44m\]\w\[\e[m\]\[\e[41m\]\\$\[\e[m\] "
 # Configure .NET Core to run in Development mode (not a default for some reason)
 export ASPNETCORE_ENVIRONMENT=Development
+# Environment ID (for projects to switch environment based on)
+export ENVIRONMENT_ID=local
 # Stores where this shell initially opened (for `home` alias)
 export __SHELL_INITIAL_DIRECTORY="$(pwd)";
 # Used mostly by nvm
