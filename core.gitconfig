@@ -1,0 +1,14 @@
+# Core gitconfig shared between machines
+# To install, add the following section to `.gitconfig`:
+# [include]
+#   path = core.gitconfig
+
+[merge]
+	conflictstyle = diff3
+
+[alias]
+	ff = pull --ff-only
+  pr = "!__func() { git fetch origin \"pull/$1/head:pr/$1\"; git checkout \"pr/$1\"; }; __func"
+  # @TODO probably split up .bash_profile into smaller stuff if we want to go down this route
+  prompt = !bash -c 'source $HOME/.bash_profile && git-prompt'
+  
