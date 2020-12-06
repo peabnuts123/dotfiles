@@ -17,8 +17,8 @@ PS1="\[\e[30;43m\][\[\e[m\]\[\e[30;43m\]\T\[\e[m\]\[\e[30;43m\]]\[\e[m\]\[\e[30;
 export ASPNETCORE_ENVIRONMENT=Development
 # Environment ID (for projects to switch environment based on)
 export ENVIRONMENT_ID=local
-# Stores where this shell initially opened (for `home` alias)
-export __SHELL_INITIAL_DIRECTORY="$(pwd)";
+# Stores where this shell initially opened (for `home` function)
+export _HOME="$(pwd)";
 # Used mostly by nvm
 export NVM_DIR="${HOME}/.nvm"
 
@@ -36,8 +36,8 @@ fi
 
 
 # ALIASES
-# Fuck
-if hash thefuck &> /dev/null; then
+# Fuck (&& test if alias is not already registered)
+if hash thefuck &> /dev/null && ! (declare -f fuck > /dev/null); then
   # Register `fuck` alias
   eval "$(thefuck --alias)";
   # Just run the default option always it's what you want trust me
@@ -68,8 +68,6 @@ fi
 if hash 'docker-compose' &> /dev/null; then
   alias dc='docker-compose';
 fi
-# Return to where the terminal opened
-alias home="cd \"${__SHELL_INITIAL_DIRECTORY}\""
 
 
 # TAB COMPLETION
@@ -288,6 +286,19 @@ function export-properties() {
       export "$key"="$value";
     fi
   done < "$1"
+}
+
+# Return to where the terminal opened
+# OR (if path provided)
+# cd to a directory relative to the paht wherein terminal opened
+function home() {
+  if [ -z "$1" ]; then
+    # No arg passed
+    cd "${_HOME}" || exit 1;
+  else
+    # Path provided
+    cd "${_HOME}/$1" || exit 1;
+  fi
 }
 
 # Not managed by git. For machine-specific overrides, secrets, etc.
