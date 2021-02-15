@@ -11,4 +11,4 @@
   pr = "!__func() { git fetch origin \"pull/$1/head:pr/$1\"; git checkout \"pr/$1\"; }; __func"
   # @TODO probably split up .bash_profile into smaller stuff if we want to go down this route
   prompt = !bash -c 'source $HOME/.bash_profile && git-prompt'
-  
+	standup = !bash -c 'git log --pretty=\"%ae\t%ad %s\" --since=yesterday --date=\"format:%m/%d %a %T%t\" --author="$(git config user.email)"'
